@@ -1,10 +1,12 @@
 import express from "express"
 import morgan from "morgan"
 import cors from "cors"
+import 'dotenv/config'
 import fetch from "node-fetch"
 import UserRoutes from "./routes/users.js"
-import 'dotenv/config'
 import connectDB from "./config/connect-db.js"
+import EventRoutes from "./routes/events.js"
+import LinkRoutes from "./routes/links.js"
 
 const app = express()
 
@@ -13,6 +15,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors())
 app.use(morgan('dev'))
 app.use(UserRoutes)
+app.use(EventRoutes)
+app.use(LinkRoutes)
 app.use(express.static('./uploads'))
  
 connectDB()
