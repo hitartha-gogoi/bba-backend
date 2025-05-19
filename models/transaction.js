@@ -3,7 +3,7 @@ const { ObjectId } = mongoose.Schema.Types
 
 const TransactionSchema = mongoose.Schema({
     lawyer: { type: ObjectId, ref: 'User', required: true },
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true },
     paymentId: { type: String },
     fee:  { type: Number, required: true },
     status: { type: Boolean, required: true },
