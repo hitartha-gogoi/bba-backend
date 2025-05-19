@@ -36,11 +36,19 @@ export default async function RazorPayWebhook(req,res){
             const payment = event.payload.payment.entity;
             const paymentLink = event.payload.payment_link.entity;
             const email = payment.email;
-            const transaction = await Transaction.findOne({ email, status: false });
-            if (!transaction) return res.status(404).json({ message: 'Transaction not found' });
 
-            const lawyer = await Lawyer.findById(transaction.lawyer);
-            if (!lawyer) return res.status(404).json({ message: 'Lawyer not found' });
+            console.log("payment: ", payment, " link: ", paymentLink, "email : ", payment.email)
+            const transaction = await Transaction.findOne({ email, status: false });
+            if (!transaction) {
+              console.log("Transaction Not Found!", payment.email)
+              return res.status(404).json({ message: 'Transaction not found' })
+            }
+
+            const lawyer = await Lawyer.findOne({ email: payment.email });
+            if (!lawyer) {
+              console.log("Lawyer Not Found!")
+              return res.status(404).json({ message: 'Lawyer not found' });
+            }
 
             // Fill PDF
             const pdfPath = path.resolve('vakalatnama-form.pdf');

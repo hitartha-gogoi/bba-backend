@@ -25,7 +25,7 @@ export default async function PayFee(req,res){
                 name, email, contact: phoneNumber
             },
             notify: { email: true, sms: true },
-            callback_url: 'http://localhost:3000/',
+            callback_url: 'https://bba-tawny.vercel.app/pay-fee',
         });
 
         const newTransaction = new Transaction({
