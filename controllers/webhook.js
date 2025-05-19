@@ -56,10 +56,8 @@ export default async function RazorPayWebhook(req,res){
             const pdfDoc = await PDFDocument.load(pdfBytes);
             const form = pdfDoc.getForm();
             
-            form.getTextField('Text1').setText(lawyer.name); // customize field names
-            form.getTextField('Text2').setText(transaction.enrolmentNumber);
-            form.getTextField('Text3').setText(payment.created_at.toString());
-            form.flatten();
+            const firstPage = pages[0];
+            firstPage.drawText(`Court Name`, { x: 201, y: 901, size: 12 });
             
             const filledPdfBytes = await pdfDoc.save();
             const filledPdfPath = `./filled-${Date.now()}.pdf`;
