@@ -55,6 +55,7 @@ export default async function RazorPayWebhook(req,res){
             const pdfBytes = fs.readFileSync(pdfPath);
             const pdfDoc = await PDFDocument.load(pdfBytes);
             const form = pdfDoc.getForm();
+            const pages = pdfDoc.getPages();
             
             const firstPage = pages[0];
             firstPage.drawText(`Court Name`, { x: 201, y: 901, size: 12 });
