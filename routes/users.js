@@ -1,23 +1,23 @@
 import express from "express"
 import upload from "../middlewares/upload.js"
-import CreateUser from "../controllers/create-user.js"
-import getUsers from "../controllers/get-users.js"
-import updateUser from "../controllers/update-user.js"
-import deleteUser from "../controllers/delete-user.js"
-import SearchUsername from "../controllers/search-username.js"
 import authenticate from "../middlewares/authenticate.js"
+import Signup from "../controllers/signup.js"
+import Login from "../controllers/login.js"
+import SearchAdmin from "../controllers/search-admin.js"
+import GetAdmins from "../controllers/all-admins.js"
+import DeleteAdmin from "../controllers/delete-admin.js"
 
 const router = express.Router()
 
-router.post("/create-user", upload.single("photo"), CreateUser)
+router.post("/signup", upload.single("photo"), Signup)
 
-router.get("/lawyers", getUsers)
+router.post("/login", Login)
 
-router.put("/lawyer/:id", updateUser)
+router.get("/search-admin", SearchAdmin)
 
-router.delete("/lawyer/:id", deleteUser)
+router.get("/admins", GetAdmins)
 
-router.get("/search", SearchUsername)
+router.delete("/admin/:id", authenticate, DeleteAdmin)
 
 const UserRoutes = router
 export default UserRoutes

@@ -1,26 +1,23 @@
-import bcrypt from 'bcrypt'
-import User from "../models/user.js"
+import Lawyer from "../models/lawyer.js"
 import 'dotenv/config'
-import createToken from '../middlewares/create-token.js';
 import crypto from 'crypto';
 
-export default async function CreateUser(req,res) {
+export default async function CreateLawyer(req,res) {
     
     try {
         if (!req.file) {
           return res.status(400).json({ message: 'No file uploaded' });
         }
     
-          const { username, email, password, description, phone } = req.body
-          const hashedPassword = await bcrypt.hash(password, 10);
+          const { username, email, description, phone, address, enrolmentNumber, membership, fatherName } = req.body
   
           const fileUrl = req.file.path
           
-          const existingUser = await User.findOne({ $or: [{ email: email }, { username: username }]  });
-          if (existingUser) {
-            console.log("user already exists!")
+          const existingLawyer = await Lawyer.findOne({ $or: [{ email: email }, { username: username }]  });
+          if (existingLawyer) {
+            console.log("Lawyer already exists!")
             
-              return res.status(400).json({ message: 'User already exists' });
+              return res.status(400).json({ message: 'Lawyer already exists' });
           }
 
           const generateOtp = () => {
@@ -29,23 +26,24 @@ export default async function CreateUser(req,res) {
           
           const otp = generateOtp();
               
-          const newUser = new User({
+          const newLawyer = new Lawyer({
               username: username,
               email: email,
               photo: fileUrl,
-              password: hashedPassword,
               description: description,
               phone: Number(phone),
               timestamp: new Date().toISOString(),
               status: true,
+              address: address,
+              fatherName: fatherName,
+              enrolmentNumber: enrolmentNumber,
+              membership: membership,
               otp: otp
           })
   
-          await newUser.save()
-  
-          const token = createToken(newUser);
-  
-          res.status(200).json({ message: "success", token });
+          await newLawyer.save()
+
+          res.status(200).json({ message: "success" });
           
       } catch(error){
           res.status(500).json({ message: 'error', error });

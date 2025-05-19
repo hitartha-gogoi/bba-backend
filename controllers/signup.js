@@ -7,20 +7,22 @@ import crypto from 'crypto';
 export default async function Signup(req,res) {
     
     try {
-        if (!req.file) {
-          return res.status(400).json({ message: 'No file uploaded' });
-        }
     
-          const { username, email, password } = req.body
+          const { username, email, password, type } = req.body
           const hashedPassword = await bcrypt.hash(password, 10);
-  
-          const fileUrl = req.file.path
-          
+
           const existingUser = await User.findOne({ $or: [{ email: email }, { username: username }]  });
           if (existingUser) {
             console.log("user already exists!")
             
               return res.status(400).json({ message: 'User already exists' });
+          }
+
+          if (type === 'owner') {
+            const existingOwner = await User.findOne({ type: 'owner' });
+            if (existingOwner) {
+              return res.status(403).json({ message: 'An owner already exists' });
+            }
           }
 
           const generateOtp = () => {
@@ -32,10 +34,9 @@ export default async function Signup(req,res) {
           const newUser = new User({
               username: username,
               email: email,
-              photo: fileUrl,
               password: hashedPassword,
               timestamp: new Date().toISOString(),
-              status: true,
+              type: type,
               otp: otp
           })
   
@@ -43,7 +44,7 @@ export default async function Signup(req,res) {
   
           const token = createToken(newUser);
   
-          res.status(200).send("success")
+          res.status(200).send({ message: "success", token: token })
           
       } catch(error){
           res.status(500).json({ message: 'error', error });
