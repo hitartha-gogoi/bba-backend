@@ -24,14 +24,14 @@ export default async function RazorPayWebhook(req,res){
         const expectedSignature = crypto.createHmac('sha256', secret).update(payload).digest('hex');
 
          if (expectedSignature !== signature) {
-          console.log("Invalid signature!")
+            console.log("Invalid signature!")
             return res.status(400).json({ message: 'Invalid signature' });
         }
 
         const event = req.body;
 
         if (event.event === 'payment_link.paid') {
-          console.log(event)
+            console.log("EVENT DETAILS: ", event)
             const payment = event.payload.payment.entity;
             const paymentLink = event.payload.payment_link.entity;
             const email = payment.email;
@@ -91,6 +91,7 @@ export default async function RazorPayWebhook(req,res){
         return res.status(200).json({ message: "success" });
 
     } catch(error){
+        console.log("Error: ", error)
         return res.status(500).json({ message: "Internal Server Error", error })
     }
 
