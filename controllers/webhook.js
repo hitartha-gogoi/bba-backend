@@ -69,6 +69,8 @@ export default async function RazorPayWebhook(req,res){
          transaction.pdf = upload.secure_url;
          await transaction.save();
 
+         console.log(transaction)
+
          // Notify all connected clients
          clients.forEach(c => {
            c.write(`data: ${JSON.stringify({
