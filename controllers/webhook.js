@@ -7,6 +7,7 @@ import { broadcast } from './sse-clients.js';
 import { clients } from './sse-clients.js';
 import cloudinary from "../config/cloudinary.js"
 import { PDFDocument } from 'pdf-lib';
+import { createHmac } from 'crypto';
 import Transaction from "../models/transaction.js";
 dotenv.config();
 
@@ -21,7 +22,7 @@ export default async function RazorPayWebhook(req,res){
 
         const payload = JSON.stringify(req.body);
         const signature = req.headers['x-razorpay-signature'];
-        const expectedSignature = crypto.createHmac('sha256', secret).update(payload).digest('hex');
+        const expectedSignature = createHmac('sha256', secret).update(payload).digest('hex');
 
          if (expectedSignature !== signature) {
             console.log("Invalid signature!")
