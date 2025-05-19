@@ -10,7 +10,7 @@ const TransactionSchema = mongoose.Schema({
     pdf: { type: String },
     transactionId: { type: String },
     type: { type: String, required: true, enum: ['vakalatnama', 'membership'] },
-    enrolmentNumber: { type: String, required: true, unique: true },
+    enrolmentNumber: { type: String, required: true },
     timestamp: { type: String, required: true }
 })
 
