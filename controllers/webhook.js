@@ -35,16 +35,16 @@ export default async function RazorPayWebhook(req,res){
             console.log("EVENT DETAILS: ", event)
             const payment = event.payload.payment.entity;
             const paymentLink = event.payload.payment_link.entity;
-            const email = payment.email;
+            const email = event.payload.payment_link.entity.notes.email;
 
-            console.log("payment: ", payment, " link: ", paymentLink, "email : ", payment.email)
+            console.log("payment: ", payment, " link: ", paymentLink, "email : ", email)
             const transaction = await Transaction.findOne({ email, status: false });
             if (!transaction) {
-              console.log("Transaction Not Found!", payment.email)
+              console.log("Transaction Not Found!", email)
               return res.status(404).json({ message: 'Transaction not found' })
             }
 
-            const lawyer = await Lawyer.findOne({ email: payment.email });
+            const lawyer = await Lawyer.findOne({ email: email });
             if (!lawyer) {
               console.log("Lawyer Not Found!")
               return res.status(404).json({ message: 'Lawyer not found' });
