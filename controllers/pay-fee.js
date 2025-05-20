@@ -23,7 +23,7 @@ export default async function PayFee(req,res){
                 name, email, contact: phoneNumber
             },
             notify: { email: true, sms: true },
-            callback_url: 'https://bba-tawny.vercel.app/pay-fee',
+            callback_url: `https://bba-tawny.vercel.app/vakalatnama?phoneNumber=${phoneNumber}`,
             notes: {
                 email: email
             }
@@ -42,6 +42,7 @@ export default async function PayFee(req,res){
             courtName: req.body.courtName,
             representing: req.body.representing,
             versus: req.body.versus,
+            phoneNumber: phoneNumber,
             enrolmentNumber: lawyer.enrolmentNumber,
             timestamp: new Date().toISOString()
         })
@@ -57,6 +58,7 @@ export default async function PayFee(req,res){
             fee: amount,
             status: false,
             email: email,
+            phoneNumber: phoneNumber,
             type: paymentType,
             enrolmentNumber: lawyer.enrolmentNumber,
             timestamp: new Date().toISOString()

@@ -5,6 +5,7 @@ const TransactionSchema = mongoose.Schema({
     lawyer: { type: ObjectId, ref: 'User', required: true },
     email: { type: String, required: true },
     paymentId: { type: String },
+    phoneNumber: { type: Number, required: true },
     fee:  { type: Number, required: true },
     status: { type: Boolean, required: true },
     pdf: { type: String },
