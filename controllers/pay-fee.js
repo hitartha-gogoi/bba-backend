@@ -14,12 +14,13 @@ const razorpay = new Razorpay({
 
 export default async function PayFee(req,res){
     try{
-        const { amount, name, email, enrolmentId, phoneNumber } = req.body
+
+        const { amount, name, email, enrolmentId, phoneNumber, paymentType } = req.body
 
         const lawyer = await Lawyer.findOne({ enrolmentNumber: enrolmentId })
 
         const paymentLink = await razorpay.paymentLink.create({
-            amount: amount,
+            amount: amount * 100,
             currency: 'INR',
             customer:{
                 name, email, contact: phoneNumber
@@ -31,12 +32,19 @@ export default async function PayFee(req,res){
             }
         });
 
-        const newTransaction = new Transaction({
+        if(paymentType == "vakalatnama"){
+
+            const newTransaction = new Transaction({
             lawyer: lawyer._id,
             fee: amount,
             status: false,
             email: email,
-            type: "membership",
+            type: paymentType,
+            caseTitle: req.body.caseTitle,
+            appealNumber: rqe.body.appealNumber,
+            courtName: req.body.courtName,
+            representing: req.body.representing,
+            versus: req.body.versus,
             enrolmentNumber: lawyer.enrolmentNumber,
             timestamp: new Date().toISOString()
         })
@@ -45,6 +53,26 @@ export default async function PayFee(req,res){
 
         return res.status(200).json({ url: paymentLink.short_url });
 
+        } else if(paymentType == "membership"){
+
+            const newTransaction = new Transaction({
+            lawyer: lawyer._id,
+            fee: amount,
+            status: false,
+            email: email,
+            type: paymentType,
+            enrolmentNumber: lawyer.enrolmentNumber,
+            timestamp: new Date().toISOString()
+        })
+
+        await newTransaction.save()
+
+        return res.status(200).json({ url: paymentLink.short_url });
+
+
+        }
+
+        
     } catch(error){
         return res.status(500).json({ message: "Internal Server Error", error })
     }
