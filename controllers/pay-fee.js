@@ -1,9 +1,6 @@
 import Lawyer from "../models/lawyer.js"
 import Razorpay from 'razorpay';
 import dotenv from 'dotenv';
-import crypto from 'crypto';
-import fs from 'fs';
-import { PDFDocument } from 'pdf-lib';
 import Transaction from "../models/transaction.js";
 dotenv.config();
 
@@ -41,7 +38,7 @@ export default async function PayFee(req,res){
             email: email,
             type: paymentType,
             caseTitle: req.body.caseTitle,
-            appealNumber: rqe.body.appealNumber,
+            appealNumber: req.body.appealNumber,
             courtName: req.body.courtName,
             representing: req.body.representing,
             versus: req.body.versus,
@@ -74,6 +71,7 @@ export default async function PayFee(req,res){
 
         
     } catch(error){
+        console.log(error)
         return res.status(500).json({ message: "Internal Server Error", error })
     }
 
