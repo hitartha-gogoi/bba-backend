@@ -9,7 +9,7 @@ export default async function GetEnrolmentId(req,res){
             return res.status(403).json({ message: 'No lawyers found' });
         }
 
-        return res.status(200).json({ enrolmentId: lawyer.enrolmentNumber, message: "success" });
+        return res.status(200).json({ enrolmentId: lawyer.enrolmentNumber, lawyer, message: "success" });
 
     } catch(error){
 
