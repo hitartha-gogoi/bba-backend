@@ -5,7 +5,7 @@ export default async function GetPhoneNumber(req,res){
     try {
         
         const lawyer = await Lawyer.findOne({ phone: req.query.phone })
-        if (!lawyer || lawyer.length === 0) {
+        if (!lawyer || lawyer.length == 0) {
             console.log(lawyer)
             return res.status(403).json({ message: 'No lawyers found' });
         }
