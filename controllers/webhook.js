@@ -78,7 +78,8 @@ export default async function RazorPayWebhook(req,res){
               // Upload to Cloudinary
               const upload = await cloudinary.uploader.upload(filledPdfPath, {
                 folder: 'pdfs',
-                resource_type: 'raw'
+                resource_type: 'raw',
+                type: 'upload',
               });
            
               fs.unlinkSync(filledPdfPath);
