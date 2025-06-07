@@ -14,6 +14,9 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
+// how will razorpay redirect if payment is  failed? because redirecting page is happening on frontend
+
+
 export default async function RazorPayWebhook(req,res){
     try{
         const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
@@ -28,6 +31,26 @@ export default async function RazorPayWebhook(req,res){
         }
 
         const event = req.body;
+
+        // now handle the event for failed payment
+        if (event.event === 'payment_link.failed') {
+
+            console.log("EVENT DETAILS: ", event)
+            const paymentLink = event.payload.payment_link.entity;
+            const email = paymentLink.notes.email;
+            console.log("payment link: ", paymentLink, "email : ", email)
+            const transaction = await Transaction.findOne({ email, status: false });
+            if (!transaction) {
+              console.log("Transaction Not Found!", email)
+              return res.status(404).json({ message: 'Transaction not found' })
+            }
+            transaction.status = false;
+            transaction.paymentId = paymentLink.id;
+            transaction.transactionId = paymentLink.id;
+            await transaction.save();
+            console.log("Transaction updated: ", transaction)
+            return res.status(403).json({ message: "success" });
+        }
 
         if (event.event === 'payment_link.paid') {
             console.log("EVENT DETAILS: ", event)
@@ -102,7 +125,9 @@ export default async function RazorPayWebhook(req,res){
                 transaction.transactionId = paymentLink.id;
               
                 await transaction.save();
-                console.log(transaction)
+
+                const updatedLawyer = await Lawyer.findByIdAndUpdate(lawyer._id, { $set: { membership: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString() } }, { new: true })
+                console.log(transaction, "membership updated for lawyer: ", updatedLawyer)
             }
 
         }

@@ -12,6 +12,7 @@ const razorpay = new Razorpay({
 export default async function PayFee(req,res){
     try{
 
+        
         const { amount, name, email, enrolmentId, phoneNumber, paymentType } = req.body
 
         const lawyer = await Lawyer.findOne({ enrolmentNumber: enrolmentId })
@@ -49,6 +50,7 @@ export default async function PayFee(req,res){
 
         await newTransaction.save()
 
+
         return res.status(200).json({ url: paymentLink.short_url });
 
         } else if(paymentType == "membership"){
@@ -65,6 +67,10 @@ export default async function PayFee(req,res){
         })
 
         await newTransaction.save()
+
+        // use date object to increment the membership by 1 year
+
+        
 
         return res.status(200).json({ url: paymentLink.short_url });
 
