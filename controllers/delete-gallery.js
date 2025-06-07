@@ -4,8 +4,8 @@ export default async function DeleteGallery(req,res){
 
     try {
 
-        const Link = await Link.findById(req.params.id)
-        if (!Link) {
+        const link = await Link.findById(req.params.id)
+        if (!link) {
             return res.status(403).json({ message: 'No Link found' });
         }
 

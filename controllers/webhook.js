@@ -65,12 +65,14 @@ export default async function RazorPayWebhook(req,res){
               return res.status(404).json({ message: 'Transaction not found' })
             }
 
+            console.log("Transaction type: ", transaction.type)
             const lawyer = await Lawyer.findOne({ email: email });
             if (!lawyer) {
               console.log("Lawyer Not Found!")
               return res.status(404).json({ message: 'Lawyer not found' });
             }
 
+            
             // Fill PDF
             if(transaction.type == "vakalatnama"){
 

@@ -16,7 +16,7 @@ export default async function CreateLink(req,res) {
           }
 
           // ✅ Enforce max limit of 20 for photo + carousels-1
-          if (type === 'photo' && category === 'carousels-1') {
+          if (type === 'photo' && category === 'carousels-1' || type === 'photo' && category === 'carousels-2') {
             const photoCount = await Link.countDocuments({
                 type: 'photo',
                 category: 'carousels-1',

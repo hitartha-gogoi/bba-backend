@@ -5,10 +5,14 @@ import UpdateLink from "../controllers/update-link.js"
 import DeleteLink from "../controllers/delete-link.js"
 import GetLink from "../controllers/get-link.js"
 import DeleteGallery from "../controllers/delete-gallery.js"
+import upload from "../middlewares/upload.js"
+import CreateGalleryImage from "../controllers/create-gallery-image.js"
 
 const router = express.Router()
 
 router.post("/create-link", CreateLink)
+
+router.post("/gallery", upload.single("image"), CreateGalleryImage)
 
 router.get("/link/:id", GetLink)
 
