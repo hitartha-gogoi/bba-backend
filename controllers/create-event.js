@@ -9,7 +9,7 @@ export default async function CreateEvent(req,res) {
           return res.status(400).json({ message: 'No file uploaded' });
         }
 
-          const { title, location, description, startDate, endDate } = req.body
+          const { title, link, description, startDate, endDate } = req.body
 
           const fileUrl = req.file.path
 
@@ -23,7 +23,7 @@ export default async function CreateEvent(req,res) {
           const newEvent = new Event({
               title: title,
               photo: fileUrl,
-              location: location,
+              link: link,
               description: description,
               timestamp: new Date().toISOString(),
               status: true,
