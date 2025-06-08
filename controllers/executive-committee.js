@@ -9,18 +9,18 @@ export const getAllRoles = async (req, res) => {
   }
 };
 
-export const updateRole = async (req, res) => {
+export const updateName = async (req, res) => {
   const { id } = req.params;
-  const { name, link } = req.body;
+  const { name } = req.body;
 
-  if (!link) {
-    return res.status(400).json({ error: "Link is required." });
+  if (!name) {
+    return res.status(400).json({ error: "Name is required." });
   }
 
   try {
     const updated = await ExecutiveCommittee.findByIdAndUpdate(
       id,
-      { $set: { name: name || "", link } }, // name optional, defaults to empty string if not provided
+      { name },
       { new: true, runValidators: true }
     );
 
@@ -30,6 +30,34 @@ export const updateRole = async (req, res) => {
 
     res.json(updated);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+
+export const updatePhoto = async (req, res) => {
+  const { id } = req.params;
+
+  if (!req.file) {
+    return res.status(400).json({ error: "Image file is required." });
+  }
+
+  const imageUrl = req.file.path;
+
+  try {
+    const updated = await ExecutiveCommittee.findByIdAndUpdate(
+      id,
+      { link: imageUrl },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ error: "Role not found" });
+    }
+
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
