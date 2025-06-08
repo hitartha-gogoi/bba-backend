@@ -6,7 +6,7 @@ export default async function HandleAction(req,res) {
     
     try {
         
-          const { actionHandler, action } = req.body
+          const { actionHandler, action, email } = req.body
 
           const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -19,8 +19,8 @@ export default async function HandleAction(req,res) {
         });
 
         const msg = {
-            to: email,
-            from: process.env.EMAIL_USER,
+            to: process.env.EMAIL_USER,
+            from: email,
             subject: "ACTION",
             text: 'Hey Admin! An action has been performed',
             html: ACTION_HANDLER_TEMPLATE({
