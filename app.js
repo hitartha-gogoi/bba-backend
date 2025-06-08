@@ -9,6 +9,7 @@ import EventRoutes from "./routes/events.js"
 import LinkRoutes from "./routes/links.js"
 import UserRoutes from "./routes/users.js"
 import PaymentRoutes from "./routes/payment.js"
+import execRoutes from "./routes/executive-committee.js"
 
 const app = express()
 
@@ -21,6 +22,7 @@ app.use(EventRoutes)
 app.use(UserRoutes)
 app.use(LinkRoutes)
 app.use(PaymentRoutes)
+app.use(execRoutes)
 app.use(express.static('./uploads'))
  
 connectDB()
