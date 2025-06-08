@@ -26,7 +26,7 @@ export default async function HandleAction(req,res) {
             html: ACTION_HANDLER_TEMPLATE({
               actionHandler: actionHandler, // e.g. Admin John
               action: action,  // e.g. "Updated Secretary image"
-              timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true, })
+              timestamp: new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true, })
             }),
         };
 
