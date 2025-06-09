@@ -12,7 +12,6 @@ const razorpay = new Razorpay({
 export default async function PayFee(req,res){
     try{
 
-        
         const { amount, name, email, enrolmentId, phoneNumber, paymentType } = req.body
 
         const lawyer = await Lawyer.findOne({ enrolmentNumber: enrolmentId })

@@ -87,7 +87,7 @@ export default async function RazorPayWebhook(req,res){
               firstPage.drawText(`${transaction.appealNumber}`, { x: 201, y: 881,  size: 10 });
               firstPage.drawText(`${transaction.representing}`, { x: 100, y: 838,  size: 10 });
               firstPage.drawText(`${transaction.versus}`, { x: 100, y: 771,  size: 10 });
-              firstPage.drawText(`${transaction.transactionId}`, { x: 530, y: 972,  size: 10 });
+              firstPage.drawText(`${paymentLink.id}`, { x: 530, y: 972,  size: 10 });
               firstPage.drawText(`${new Date(transaction.timestamp).toLocaleDateString('en-US', { weekday: 'long',month: 'long', day: 'numeric', year: 'numeric' })} ${new Date(transaction.timestamp).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true })}`, { x: 530, y: 992,  size: 10 });
               firstPage.drawText(`Day`, { x: 230, y: 170,  size: 10 });
 
