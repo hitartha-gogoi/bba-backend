@@ -10,7 +10,7 @@ export default async function GetVakalatnamas(req,res){
         }
 
         const latestTransaction = await Transaction.findOne().sort({ timestamp: -1 })
-        
+ 
         return res.status(200).json({ vakalatnamas: vakalatnamas, latestTransaction, message: "success" });
 
     } catch(error){
