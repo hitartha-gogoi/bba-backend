@@ -9,8 +9,8 @@ const pages = pdfDoc.getPages();
 const firstPage = pages[0];
 const form = pdfDoc.getForm();
 
-firstPage.drawText(`Court Name`, { x: 201, y: 902,  size: 10 });
-firstPage.drawText(`Appeal's Number`, { x: 201, y: 881,  size: 10 });
+firstPage.drawText(`transaction`, { x: 530, y: 972,  size: 10 });
+firstPage.drawText(`Timestamp`, { x: 530, y: 992,  size: 10 });
 firstPage.drawText(`Plantiff`, { x: 100, y: 838,  size: 10 });
 firstPage.drawText(`Versus 1`, { x: 100, y: 771,  size: 10 });
 firstPage.drawText(`Versus 2`, { x: 250, y: 760,  size: 10 });
