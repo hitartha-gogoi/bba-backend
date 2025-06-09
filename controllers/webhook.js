@@ -33,7 +33,7 @@ export default async function RazorPayWebhook(req,res){
         const event = req.body;
 
         // now handle the event for failed payment
-        if (event.event === 'payment_link.failed') {
+        /*if (event.event === 'payment_link.failed') {
 
             console.log("EVENT DETAILS: ", event)
             const paymentLink = event.payload.payment_link.entity;
@@ -50,7 +50,7 @@ export default async function RazorPayWebhook(req,res){
             await transaction.save();
             console.log("Transaction updated: ", transaction)
             return res.status(403).json({ message: "success" });
-        }
+        }*/
 
         if (event.event === 'payment_link.paid') {
             console.log("EVENT DETAILS: ", event)
