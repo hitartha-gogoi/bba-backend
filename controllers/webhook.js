@@ -133,7 +133,7 @@ export default async function RazorPayWebhook(req,res){
                 await transaction.save();
 
                 await Lawyer.findByIdAndUpdate(lawyer._id, { $set: { membership: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString() } }, { new: true })
-                console.log(transaction, "membership updated for lawyer: ", updatedLawyer)
+                console.log(transaction, "membership updated for lawyer: ", updatedLawyer, transaction.status)
             }
 
         }
