@@ -23,7 +23,7 @@ export default async function PayFee(req,res){
                 name, email, contact: String(phoneNumber)
             },
             notify: { email: true, sms: true },
-            callback_url: `https://bba-tawny.vercel.app/vakalatnama?phoneNumber=${phoneNumber}`,
+            callback_url: `https://bba-tawny.vercel.app/vakalatnama?phoneNumber=${phoneNumber}?paymentType=${paymentType}`,
             notes: {
                 email: email
             }
