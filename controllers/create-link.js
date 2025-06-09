@@ -15,21 +15,6 @@ export default async function CreateLink(req,res) {
               return res.status(400).json({ message: 'Link already exists' });
           }
 
-          // ✅ Enforce max limit of 20 for photo + carousels-1
-          if (type === 'photo' && category === 'carousels-1' || type === 'photo' && category === 'carousels-2') {
-            const photoCount = await Link.countDocuments({
-                type: 'photo',
-                category: 'carousels-1',
-            })
-            
-            if (photoCount >= 20) {
-                return res.status(403).json({
-                    message: 'Limit reached: Only 20 photos allowed in carousels-1',
-                })
-            }
-        }
-
-
           const newLink = new Link({
               title: title,
               description: description,

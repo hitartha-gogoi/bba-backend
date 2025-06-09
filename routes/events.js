@@ -7,6 +7,7 @@ import UpdateEvent from "../controllers/update-event.js"
 import DeleteEvent from "../controllers/delete-event.js"
 import SearchEvent from "../controllers/search-events.js"
 import authenticate from "../middlewares/authenticate.js"
+import UpdateEventPhoto from "../controllers/update-event-photo.js"
 
 const router = express.Router()
 
@@ -21,6 +22,8 @@ router.put("/event/:id", UpdateEvent)
 router.delete("/event/:id", DeleteEvent)
 
 router.get("/search-event", SearchEvent)
+
+router.put("/update-event-photo/:id", upload.single("photo"), UpdateEventPhoto)
 
 const EventRoutes = router
 export default EventRoutes

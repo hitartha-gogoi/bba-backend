@@ -8,6 +8,7 @@ import SearchUsername from "../controllers/search-username.js"
 import authenticate from "../middlewares/authenticate.js"
 import ContactForm from "../controllers/contact-form.js"
 import GetPhoneNumber from "../controllers/get-phone-number.js"
+import UpdateLawyerPhoto from "../controllers/update-lawyer-photo.js"
 
 const router = express.Router()
 
@@ -24,6 +25,8 @@ router.get("/search", SearchUsername)
 router.post("/contact", ContactForm)
 
 router.get("/phone-number", GetPhoneNumber)
+
+router.put("/update-lawyer-photo/:id", upload.single("photo"), UpdateLawyerPhoto)
 
 const LawyerRoutes = router
 export default LawyerRoutes
