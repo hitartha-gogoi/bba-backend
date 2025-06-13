@@ -21,7 +21,7 @@ function uploadMiddleware(folderName) {
           folder: folderPath,
           public_id: publicId,
           format: fileExtension,
-          allowed_formats: ['jpeg', 'png', 'jpg'],
+          allowed_formats: ['jpeg', 'png', 'jpg', 'pdf'],
         };
       },
     });
