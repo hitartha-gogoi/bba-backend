@@ -23,9 +23,11 @@ export default async function PayFee(req,res){
                 name, email, contact: String(phoneNumber)
             },
             notify: { email: true, sms: true },
-            callback_url: `https://bba-tawny.vercel.app/vakalatnama?phoneNumber=${phoneNumber}`,
+            callback_url: `https://bba-tawny.vercel.app/vakalatnama?enrolmentId=${enrolmentId}`,
+            receipt: `BAB-${paymentType.toUpperCase()}-${Date.now()}`,
             notes: {
-                email: email
+                email: email,
+                enrolmentId: enrolmentId
             }
         });
 

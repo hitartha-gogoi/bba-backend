@@ -8,7 +8,8 @@ const TransactionSchema = mongoose.Schema({
     phoneNumber: { type: Number, required: true },
     fee:  { type: Number, required: true },
     status: { type: Boolean, required: true },
-    pdf: { type: String },
+    pdf: { type: String }, // PDF FOR VAKALATNAMA
+    receipt: { type: String }, // PDF FOR RECEIPT
     courtName: { type: String },
     caseTitle: { type: String },
     appealNumber: { type: String },

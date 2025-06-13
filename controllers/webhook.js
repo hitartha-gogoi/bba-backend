@@ -16,7 +16,6 @@ const razorpay = new Razorpay({
 
 // how will razorpay redirect if payment is  failed? because redirecting page is happening on frontend
 
-
 export default async function RazorPayWebhook(req,res){
     try{
         const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
@@ -57,6 +56,7 @@ export default async function RazorPayWebhook(req,res){
             const payment = event.payload.payment.entity;
             const paymentLink = event.payload.payment_link.entity;
             const email = event.payload.payment_link.entity.notes.email;
+            const enrolmentId = event.payload.payment_link.entity.notes.enrolmentId
 
             console.log("payment: ", payment, " link: ", paymentLink, "email : ", email)
             const transaction = await Transaction.findOne({ email, status: false });
@@ -74,7 +74,31 @@ export default async function RazorPayWebhook(req,res){
 
             console.log("The lawyer id: ", lawyer._id)
 
-            
+            // CREATES RECEIPT
+
+            const receiptPath = path.resolve('vakalatnama-form.pdf');
+            const receiptBytes = fs.readFileSync(receiptPath);
+            const receiptDoc = await PDFDocument.load(receiptBytes);
+            const receiptPage = receiptDoc.getPages()[0];
+            receiptPage.drawText(``, { x: 201, y: 901, size: 12 });
+
+            const filledReceiptBytes = await receiptDoc.save();
+            const filledReceiptPath = `./receipt-${Date.now()}.pdf`;
+            fs.writeFileSync(filledReceiptPath, filledReceiptBytes);
+
+            // UPLOADS PDF TO CLOUDINARY
+
+            const uploadReceipt = await cloudinary.uploader.upload(filledPdfPath, {
+                folder: 'pdfs',
+                resource_type: 'raw',
+                type: 'upload',
+              });
+
+            fs.unlinkSync(filledReceiptPath);
+
+            transaction.receipt = uploadReceipt.secure_url
+            await transaction.save()
+
             // Fill PDF
             if(transaction.type == "vakalatnama"){
 
@@ -123,7 +147,7 @@ export default async function RazorPayWebhook(req,res){
               await transaction.save();
               console.log("PDF LINK: ", upload.secure_url)
               console.log(transaction)
-
+              
             } else if(transaction.type == "membership"){
 
                 transaction.status = true;
