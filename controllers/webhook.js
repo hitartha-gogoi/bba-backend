@@ -56,7 +56,6 @@ export default async function RazorPayWebhook(req,res){
             const payment = event.payload.payment.entity;
             const paymentLink = event.payload.payment_link.entity;
             const email = event.payload.payment_link.entity.notes.email;
-            const receiptId = event.payload.payment_link.entity.receipt
             const enrolmentId = event.payload.payment_link.entity.notes.enrolmentId
 
             console.log("payment: ", payment, " link: ", paymentLink, "email : ", email)
@@ -81,7 +80,7 @@ export default async function RazorPayWebhook(req,res){
             const receiptBytes = fs.readFileSync(receiptPath);
             const receiptDoc = await PDFDocument.load(receiptBytes);
             const receiptPage = receiptDoc.getPages()[0];
-            receiptPage.drawText(`${receiptId}`, { x: 100, y: 685,  size: 10 });
+            receiptPage.drawText(`${paymentLink.id}`, { x: 100, y: 685,  size: 10 });
             receiptPage.drawText(`${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}`, { x: 90, y: 655,  size: 10 });
             receiptPage.drawText(`${paymentLink.id}`, { x: 130, y: 598,  size: 10 });
             receiptPage.drawText(`${lawyer.username}`, { x: 100, y: 500,  size: 10 });
