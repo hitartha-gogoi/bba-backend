@@ -56,6 +56,7 @@ export default async function RazorPayWebhook(req,res){
             const payment = event.payload.payment.entity;
             const paymentLink = event.payload.payment_link.entity;
             const email = event.payload.payment_link.entity.notes.email;
+            const receiptId = event.payload.payment_link.entity.receipt
             const enrolmentId = event.payload.payment_link.entity.notes.enrolmentId
 
             console.log("payment: ", payment, " link: ", paymentLink, "email : ", email)
@@ -76,11 +77,21 @@ export default async function RazorPayWebhook(req,res){
 
             // CREATES RECEIPT
 
-            const receiptPath = path.resolve('vakalatnama-form.pdf');
+            const receiptPath = path.resolve('receipt.pdf');
             const receiptBytes = fs.readFileSync(receiptPath);
             const receiptDoc = await PDFDocument.load(receiptBytes);
             const receiptPage = receiptDoc.getPages()[0];
-            receiptPage.drawText(``, { x: 201, y: 901, size: 12 });
+            receiptPage.drawText(`${receiptId}`, { x: 100, y: 685,  size: 10 });
+            receiptPage.drawText(`${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}`, { x: 90, y: 655,  size: 10 });
+            receiptPage.drawText(`${paymentLink.id}`, { x: 130, y: 598,  size: 10 });
+            receiptPage.drawText(`${lawyer.username}`, { x: 100, y: 500,  size: 10 });
+            receiptPage.drawText(`${enrolmentId}`, { x: 130, y: 470,  size: 10 });
+            receiptPage.drawText(`${lawyer.phone}`, { x: 100, y: 440,  size: 10 });
+            receiptPage.drawText(`${transaction.fee}`, { x: 320, y: 370,  size: 10 });
+            receiptPage.drawText(`${transaction.fee}`, { x: 320, y: 340,  size: 10 });
+            receiptPage.drawText(`successful`, { x: 120, y: 570,  size: 10 });
+            receiptPage.drawText(`online`, { x: 140, y: 625,  size: 10 });
+            receiptPage.drawText(`${transaction.type}`, { x: 120, y: 570,  size: 10 });
 
             const filledReceiptBytes = await receiptDoc.save();
             const filledReceiptPath = `./receipt-${Date.now()}.pdf`;
@@ -88,7 +99,7 @@ export default async function RazorPayWebhook(req,res){
 
             // UPLOADS PDF TO CLOUDINARY
 
-            const uploadReceipt = await cloudinary.uploader.upload(filledPdfPath, {
+            const uploadReceipt = await cloudinary.uploader.upload(filledReceiptPath, {
                 folder: 'pdfs',
                 resource_type: 'raw',
                 type: 'upload',
