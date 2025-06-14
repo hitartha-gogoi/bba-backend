@@ -9,7 +9,7 @@ export default async function GetVakalatnamas(req,res){
             return res.status(403).json({ message: 'No Vakalatnamas found' });
         }
 
-        const latestTransaction = await Transaction.findOne().sort({ timestamp: -1 })
+        const latestTransaction = await Transaction.findOne({ phoneNumber: req.query.phoneNumber }).sort({ timestamp: -1 })
  
         return res.status(200).json({ vakalatnamas: vakalatnamas, latestTransaction, message: "success" });
 
