@@ -29,7 +29,7 @@ export default async function RazorPayWebhook(req,res){
          if (expectedSignature !== signature) {
           console.log("The expected signature :", expectedSignature)
           console.log("The signature I received :", signature)
-          console.log(isValid)
+          console.log("Use razorpay to check Validity: ", isValid)
           
             console.log("Invalid signature!")
             return res.status(400).json({ message: 'Invalid signature' });
