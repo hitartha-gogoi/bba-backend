@@ -25,6 +25,9 @@ export default async function RazorPayWebhook(req,res){
         const expectedSignature = createHmac('sha256', secret).update(payload).digest('hex');
 
          if (expectedSignature !== signature) {
+          console.log("The expected signature :", expectedSignature)
+          console.log("The signature I received :", signature)
+          
             console.log("Invalid signature!")
             return res.status(400).json({ message: 'Invalid signature' });
         }
