@@ -90,7 +90,7 @@ export default async function RazorPayWebhook(req,res){
             receiptPage.drawText(`${transaction.fee}`, { x: 320, y: 340,  size: 10 });
             receiptPage.drawText(`successful`, { x: 120, y: 570,  size: 10 });
             receiptPage.drawText(`online`, { x: 140, y: 625,  size: 10 });
-            receiptPage.drawText(`${transaction.type}`, { x: 120, y: 570,  size: 10 });
+         //   receiptPage.drawText(`${transaction.type}`, { x: 120, y: 570,  size: 10 });
 
             const filledReceiptBytes = await receiptDoc.save();
             const filledReceiptPath = `./receipt-${Date.now()}.pdf`;
@@ -105,9 +105,6 @@ export default async function RazorPayWebhook(req,res){
               });
 
             fs.unlinkSync(filledReceiptPath);
-
-            transaction.receipt = uploadReceipt.secure_url
-            await transaction.save()
 
             // Fill PDF
             if(transaction.type == "vakalatnama"){
@@ -153,6 +150,7 @@ export default async function RazorPayWebhook(req,res){
               transaction.status = true;
               transaction.paymentId = payment.id;
               transaction.transactionId = paymentLink.id;
+              transaction.receipt = uploadReceipt.secure_url
               
               await transaction.save();
               console.log("PDF LINK: ", upload.secure_url)
@@ -163,6 +161,7 @@ export default async function RazorPayWebhook(req,res){
                 transaction.status = true;
                 transaction.paymentId = payment.id;
                 transaction.transactionId = paymentLink.id;
+                transaction.receipt = uploadReceipt.secure_url
               
                 await transaction.save();
 
