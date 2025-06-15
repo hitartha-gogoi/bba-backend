@@ -125,6 +125,10 @@ export default async function RazorPayWebhook(req,res){
               const pages = pdfDoc.getPages();
             
               const firstPage = pages[0];
+              const today = new Date();
+              const dd = String(today.getDate()).padStart(2, '0');
+              const mm = String(today.getMonth() + 1).padStart(2, '0');
+              const yy = String(today.getFullYear()).slice(-2);
               const formattedDate = `${dd}/${mm}/${yy}`;
 
               firstPage.drawText(`${transaction.courtName}`, { x: 201, y: 901, size: 12 });
@@ -134,14 +138,6 @@ export default async function RazorPayWebhook(req,res){
               firstPage.drawText(`${paymentLink.id}`, { x: 490, y: 972,  size: 10 });
               firstPage.drawText(`${new Date(transaction.timestamp).toLocaleDateString('en-US', { weekday: 'long',month: 'long', day: 'numeric', year: 'numeric' })}`, { x: 490, y: 992,  size: 10 });
             //  firstPage.drawText(`Day`, { x: 230, y: 170,  size: 10 });
-
-              const today = new Date();
-
-              const dd = String(today.getDate()).padStart(2, '0');
-              const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-              const yy = String(today.getFullYear()).slice(-2); // Get last 2 digits
-
-            
               firstPage.drawText(`${formattedDate}`, { x: 340, y: 170,  size: 10 }); //
             
               const filledPdfBytes = await pdfDoc.save();
