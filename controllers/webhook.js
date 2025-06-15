@@ -28,7 +28,7 @@ export default async function RazorPayWebhook(req,res){
 
          if (expectedSignature !== signature) {
           console.log("The req.body UTF-8: ", req.body.toString('utf8'))
-          console.log("The UTF-8 signature: ",createHmac('sha256', secret).update(req.body.toString('utf8')).digest('hex'))
+          console.log("The signature: ",createHmac('sha256', secret).update(req.body).digest('hex'))
           console.log("The payload: ", payload)
           console.log("The expected signature :", expectedSignature)
           console.log("The signature I received :", signature)
