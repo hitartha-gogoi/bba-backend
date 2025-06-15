@@ -16,7 +16,7 @@ firstPage.drawText(`NAME`, { x: 100, y: 500,  size: 10 });
 firstPage.drawText(`MEMBERSHIP ID`, { x: 130, y: 470,  size: 10 });
 firstPage.drawText(`CONTACT`, { x: 100, y: 440,  size: 10 });
 firstPage.drawText(`AMOUNT`, { x: 320, y: 370,  size: 10 });
-firstPage.drawText(`TOTAL`, { x: 320, y: 340,  size: 10 });
+firstPage.drawText(`Type`, {  x: 120, y: 570,  size: 10 });
 firstPage.drawText(`vakalatnama`, { x: 120, y: 570,  size: 10 });
 //firstPage.drawText(`Signature`, { x: 500, y: 120,  size: 10 });
 

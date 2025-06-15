@@ -99,7 +99,7 @@ export default async function RazorPayWebhook(req,res){
             receiptPage.drawText(`${transaction.fee}`, { x: 320, y: 340,  size: 10 });
             receiptPage.drawText(`successful`, { x: 120, y: 570,  size: 10 });
             receiptPage.drawText(`online`, { x: 140, y: 625,  size: 10 });
-            receiptPage.drawText(`${transaction.type}`, { x: 120, y: 570,  size: 10 });
+            receiptPage.drawText(`${transaction.type}`, { x: 80, y: 370,  size: 10 });
 
             const filledReceiptBytes = await receiptDoc.save();
             const filledReceiptPath = `./receipt-${Date.now()}.pdf`;
@@ -129,9 +129,9 @@ export default async function RazorPayWebhook(req,res){
               firstPage.drawText(`${transaction.appealNumber}`, { x: 201, y: 881,  size: 10 });
               firstPage.drawText(`${transaction.representing}`, { x: 100, y: 838,  size: 10 });
               firstPage.drawText(`${transaction.versus}`, { x: 100, y: 771,  size: 10 });
-              firstPage.drawText(`${paymentLink.id}`, { x: 510, y: 972,  size: 10 });
-              firstPage.drawText(`${new Date(transaction.timestamp).toLocaleDateString('en-US', { weekday: 'long',month: 'long', day: 'numeric', year: 'numeric' })} ${new Date(transaction.timestamp).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true })}`, { x: 510, y: 992,  size: 10 });
-              firstPage.drawText(`Day`, { x: 230, y: 170,  size: 10 });
+              firstPage.drawText(`${paymentLink.id}`, { x: 490, y: 972,  size: 10 });
+              firstPage.drawText(`${new Date(transaction.timestamp).toLocaleDateString('en-US', { weekday: 'long',month: 'long', day: 'numeric', year: 'numeric' })} ${new Date(transaction.timestamp).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true })}`, { x: 490, y: 992,  size: 10 });
+            //  firstPage.drawText(`Day`, { x: 230, y: 170,  size: 10 });
 
               const today = new Date();
 

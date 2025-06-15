@@ -17,7 +17,7 @@ export default async function CreateGalleryImage(req,res) {
                           category: 'carousels-1',
                       })
                       
-                      if (photoCount >= 20) {
+                      if (photoCount >= 1000) {
                           return res.status(403).json({
                               message: 'Limit reached: Only 20 photos allowed in carousels-1',
                           })
@@ -30,7 +30,7 @@ export default async function CreateGalleryImage(req,res) {
                           category: 'carousels-2',
                       })
                       
-                      if (photoCount >= 20) {
+                      if (photoCount >= 1000) {
                           return res.status(403).json({
                               message: 'Limit reached: Only 20 photos allowed in carousels-2',
                           })
