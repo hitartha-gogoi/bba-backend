@@ -2,6 +2,7 @@ import express from "express"
 import morgan from "morgan"
 import cors from "cors"
 import 'dotenv/config'
+import RazorPayWebhook from "./controllers/webhook.js"
 import fetch from "node-fetch"
 import LawyerRoutes from "./routes/lawyers.js"
 import connectDB from "./config/connect-db.js"
@@ -12,6 +13,8 @@ import PaymentRoutes from "./routes/payment.js"
 import execRoutes from "./routes/executive-committee.js"
 
 const app = express()
+
+app.post("/webhook", express.raw({ type: 'application/json' }), RazorPayWebhook)
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

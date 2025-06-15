@@ -20,15 +20,13 @@ export default async function RazorPayWebhook(req,res){
     try{
         const secret = process.env.RAZORPAY_WEBHOOK_SECRET;
 
-        const payload = JSON.stringify(req.body);
+        const payload = req.body; //JSON.stringify(req.body);
         const signature = req.headers['x-razorpay-signature'];
         const expectedSignature = createHmac('sha256', secret).update(payload).digest('hex');
 
         //const isValid = razorpay.validateWebhookSignature(payload.toString(), signature, secret);
 
          if (expectedSignature !== signature) {
-          console.log("The req.body UTF-8: ", req.body)
-          console.log("The signature: ",createHmac('sha256', secret).update(req.body).digest('hex'))
           console.log("The payload: ", payload)
           console.log("The expected signature :", expectedSignature)
           console.log("The signature I received :", signature)
@@ -38,7 +36,9 @@ export default async function RazorPayWebhook(req,res){
           return res.status(400).json({ message: 'Invalid signature' });
         }
 
-        const event = req.body;
+        const event = JSON.parse(payload.toString());
+        console.log("THE EVENT : ", event)
+        //const event = req.body;
 
         // now handle the event for failed payment
         /*if (event.event === 'payment_link.failed') {
