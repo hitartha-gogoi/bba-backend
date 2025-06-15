@@ -27,6 +27,8 @@ export default async function RazorPayWebhook(req,res){
         //const isValid = razorpay.validateWebhookSignature(payload.toString(), signature, secret);
 
          if (expectedSignature !== signature) {
+          console.log("The req.body: ", req.body)
+          console.log("The payload: ", payload)
           console.log("The expected signature :", expectedSignature)
           console.log("The signature I received :", signature)
           // console.log("Use razorpay to check Validity: ", isValid)
